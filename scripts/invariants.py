@@ -25,14 +25,14 @@ class InvariantsCalculator:
         return ";".join(map(str, self.invts))
 
 
-    def write_out(self, fname):
+    def writeOut(self, fname):
         f = open(fname, 'a')
         f.write(self.toText())
         f.write("\n")
         f.close()
 
 
-    def calculate_invariants(self, data_matrix):
+    def calculateInvariants(self, data_matrix):
         """
         It calculates the invariants.
         
