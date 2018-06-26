@@ -25,7 +25,7 @@ class InvariantsCalculator:
         return ";".join(map(str, self.invts))
 
 
-    def write_out(self, fname):
+    def writeOut(self, fname):
         f = open(fname, 'a')
         f.write(self.toText())
         f.write("\n")
