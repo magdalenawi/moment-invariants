@@ -5,7 +5,6 @@ import numpy as np
 from scipy import misc
 import sys
 from scipy import ndimage
-import matplotlib.pyplot as plt
 from PIL import Image
 from optparse import OptionParser
 import argparse
