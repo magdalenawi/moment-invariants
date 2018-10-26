@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from scipy import misc
-import sys
-from scipy import ndimage
 from PIL import Image
 from optparse import OptionParser
 import argparse
@@ -12,47 +9,35 @@ from scripts.invariants import InvariantsCalculator
 
 
 def main(order, picname, file_out):
-    pic = misc.imread(picname, flatten=1)
-    print("ORIGINAL")
-    print(pic)
-    pic_rotated_90 = ndimage.rotate(pic, 90)
-    pic_rotated_45 = ndimage.rotate(pic, 45, reshape=False)
-    pic_rotated_180 = ndimage.rotate(pic, 180)
+    try:
+        img = Image.open(picname)
+        img_rotated_90 = img.rotate(90)
+        img_rotated_45 = img.rotate(45)
+        img_rotated_180 = img.rotate(180)
 
-    img = np.asmatrix(pic)
-    img_rotated_90 = np.asmatrix(pic_rotated_90)
-    img_rotated_45 = np.asmatrix(pic_rotated_45)
-    img_rotated_180 = np.asmatrix(pic_rotated_180)
+        invar = InvariantsCalculator()
+        invar90 = InvariantsCalculator()
+        invar45 = InvariantsCalculator()
+        invar180 = InvariantsCalculator()
 
-    print("*******************")
-    print(img)
-    print("----------")
-    print(img_rotated_90)
-    print("----------")
-    print(img_rotated_45)
-    print("----------")
-    print(img_rotated_180)
+        invar.calculateInvariants(np.asmatrix(np.array(img)))
+        invar90.calculateInvariants(np.asmatrix(np.array(img_rotated_90)))
+        invar45.calculateInvariants(np.asmatrix(np.array(img_rotated_45)))
+        invar180.calculateInvariants(np.asmatrix(np.array(img_rotated_180)))
 
-    print("*-*-*-*-*-*-*-*-*-*-*\n")
-    print(img)
-    invar = InvariantsCalculator()
-    invar90 = InvariantsCalculator()
-    invar45 = InvariantsCalculator()
-    invar180 = InvariantsCalculator()
-    invar.calculateInvariants(img)
-    invar90.calculateInvariants(img_rotated_90)
-    invar45.calculateInvariants(img_rotated_45)
-    invar180.calculateInvariants(img_rotated_180)
-    print("RESULTS")
-    print(invar.getInvariants())
-    print(invar90.getInvariants())
-    print(invar45.getInvariants())
-    print(invar180.getInvariants())
+        print("RESULTS")
+        print(invar.getInvariants())
+        print(invar90.getInvariants())
+        print(invar45.getInvariants())
+        print(invar180.getInvariants())
 
-    invar.writeOut(file_out)
-    invar45.writeOut(file_out)
-    invar90.writeOut(file_out)
-    invar180.writeOut(file_out)
+        invar.writeOut(file_out)
+        invar45.writeOut(file_out)
+        invar90.writeOut(file_out)
+        invar180.writeOut(file_out)
+    except IOError:
+        pass
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run method with arguments to get moment invariants.")
