@@ -11,9 +11,9 @@ from scripts.invariants import InvariantsCalculator
 def main(order, picname, file_out):
     try:
         img = Image.open(picname)
-        img_rotated_90 = img.rotate(90)
-        img_rotated_45 = img.rotate(45)
-        img_rotated_180 = img.rotate(180)
+        img_rotated_90 = img.rotate(90, expand = True)
+        img_rotated_45 = img.rotate(45, expand = True)
+        img_rotated_180 = img.rotate(180, expand = True)
 
         invar = InvariantsCalculator()
         invar90 = InvariantsCalculator()
